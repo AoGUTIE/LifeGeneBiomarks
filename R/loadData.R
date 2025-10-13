@@ -17,6 +17,7 @@
 loadData <- function(skipping.rows = 0,
                      separator = ",",
                      filePattern,
+                     fileFolder = ".",
                      xlsx = FALSE,
                      csv = FALSE,
                      dir.name) {
@@ -38,7 +39,7 @@ loadData <- function(skipping.rows = 0,
   code.folder <- file.path(dir.name, "1.Code")
 
   message("Moving data files and Rmd...")
-  data.files <- list.files(".", pattern = filePattern)
+  data.files <- list.files(fileFolder, pattern = filePattern, full.names = TRUE)
   rmd.files  <- list.files(".", pattern = "\\.Rmd$")
   file.copy(data.files, data.folder)
   file.copy(rmd.files, code.folder)
