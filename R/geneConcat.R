@@ -8,7 +8,10 @@
 #'
 #' @return A list of data.frames, each corresponding to one gene in `genes`.
 #' @export
-geneConcat <- function(data, genes) {
+geneConcat <- function(data,
+                       genes,
+                       separate = "FALSE",
+                       identificator) {
 
   GeneListInt <- vector("list", length(genes))
   names(GeneListInt) <- genes
@@ -35,7 +38,17 @@ geneConcat <- function(data, genes) {
       }
     }
 
-    GeneListInt[[j]] <- gene_files
+    if (separate) {
+
+      # Create a logic vector with all rows that match your identificator
+      matches <- grepl(paste0("[", identificator, "]$"), gene_files$sampleID)
+      # Filter the data according to matches vector.
+      GeneListInt[[j]] <- gene_files[matches, ]
+
+    } else {
+
+      GeneListInt[[j]] <- gene_files
+    }
   }
 
   return(GeneListInt)
